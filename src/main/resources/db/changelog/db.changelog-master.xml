@@ -1,0 +1,39 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="1" author="yourname">
+        <createTable tableName="investigator">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <!-- other columns -->
+        </createTable>
+
+        <createTable tableName="case">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="investigator_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <!-- other columns -->
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="case"
+                                 baseColumnNames="investigator_id"
+                                 referencedTableName="investigator"
+                                 referencedColumnNames="id" constraintName=""/>
+
+        <!-- Initial data for investigator -->
+        <insert tableName="investigator">
+            <column name="name" value="John Doe"/>
+            <!-- other columns -->
+        </insert>
+    </changeSet>
+</databaseChangeLog>
