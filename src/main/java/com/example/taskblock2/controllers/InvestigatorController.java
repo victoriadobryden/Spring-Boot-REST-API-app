@@ -1,5 +1,8 @@
 package com.example.taskblock2.controllers;
 
+import com.example.taskblock2.data.Investigator;
+import com.example.taskblock2.services.InvestigatorService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,5 +41,4 @@ public class InvestigatorController {
         return ResponseEntity.noContent().build();
     }
 
-    // Additional endpoints if necessary
 }

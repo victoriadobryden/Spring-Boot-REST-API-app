@@ -8,6 +8,8 @@ import lombok.Setter;
 import java.util.Date;
 
 @Entity
+@Getter
+@Setter
 public class Investigator {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

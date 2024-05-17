@@ -1,3 +1,5 @@
+import com.example.taskblock2.data.Investigator;
+import com.example.taskblock2.repositories.InvestigatorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

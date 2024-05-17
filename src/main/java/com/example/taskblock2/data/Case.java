@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
 public class Case {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +32,6 @@ public class Case {
     private List<String> namesOfVictims;
 
     @ElementCollection
-    @Getter
     @JsonProperty("charges")
     private List<String> charges;
 
