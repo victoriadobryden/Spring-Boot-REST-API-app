@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/cases")
 public class CaseController {
@@ -23,8 +25,8 @@ public class CaseController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Case> getCase(@PathVariable Long id) {
-        Case aCase = caseService.findById(id);
-        return ResponseEntity.ok(aCase);
+        Optional<Case> aCase = caseService.findById(id);
+        return aCase.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")

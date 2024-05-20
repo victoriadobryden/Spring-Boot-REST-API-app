@@ -2,44 +2,40 @@ package com.example.taskblock2.services;
 
 import com.example.taskblock2.data.Case;
 import com.example.taskblock2.repositories.CaseRepository;
-import com.opencsv.CSVParser;
-import jakarta.persistence.EntityNotFoundException;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class CaseService {
+
     @Autowired
     private CaseRepository caseRepository;
+
+    public List<Case> findAll() {
+        return caseRepository.findAll();
+    }
+
+    public java.util.Optional<Case> findById(Long id) {
+        return caseRepository.findById(id);
+    }
 
     public Case save(Case aCase) {
         return caseRepository.save(aCase);
     }
 
-    public Case findById(Long id) {
-        return caseRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Case not found"));
-    }
-
     public void deleteById(Long id) {
         caseRepository.deleteById(id);
-    }
-
-    public Page<Case> listCases(Long investigatorId, PageRequest pageRequest) {
-        return caseRepository.findByInvestigatorId(investigatorId, pageRequest);
-    }
-
-    public byte[] generateReport(Long investigatorId) {
-        return new byte[0]; // Placeholder
     }
 
     public ImportResult importCases(MultipartFile file) {
@@ -49,18 +45,21 @@ public class CaseService {
         int failureCount = 0;
 
         try (Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
-            CSVParser csvParser = new CSVFormat.Builder()
-                    .setHeader()
-                    .setSkipHeaderRecord(true)
-                    .build()
+            CSVParser csvParser = CSVFormat.DEFAULT
+                    .withFirstRecordAsHeader()
+                    .withIgnoreHeaderCase()
+                    .withTrim()
                     .parse(reader);
 
             for (CSVRecord record : csvParser) {
                 try {
                     Case aCase = new Case();
-                    aCase.setName(record.get("name"));
-                    aCase.setDescription(record.get("description"));
-                    // Add other fields as necessary
+                    aCase.setPlaceOfEvent(record.get("placeOfEvent"));
+                    aCase.setDate(Date.valueOf(record.get("date")));
+                    aCase.setNamesOfVictims(List.of(record.get("namesOfVictims").split(",")));
+                    aCase.setCharges(List.of(record.get("charges").split(",")));
+                    // Set investigator if needed
+                    // aCase.setInvestigator(investigator); // If you have a way to determine the investigator
 
                     caseRepository.save(aCase);
                     successCount++;

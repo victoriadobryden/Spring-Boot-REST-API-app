@@ -2,9 +2,10 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
     <changeSet id="1" author="yourname">
+        <!-- Create Investigator Table -->
         <createTable tableName="investigator">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -12,9 +13,15 @@
             <column name="name" type="varchar(255)">
                 <constraints unique="true" nullable="false"/>
             </column>
-            <!-- other columns -->
+            <column name="date_of_birth" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="years_of_work" type="int">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
 
+        <!-- Create Case Table -->
         <createTable tableName="case">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -22,18 +29,59 @@
             <column name="investigator_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <!-- other columns -->
+            <column name="date" type="date"/>
+            <column name="place_of_event" type="varchar(255)"/>
         </createTable>
 
+        <!-- Create Join Tables for Collections -->
+        <createTable tableName="case_names_of_victims">
+            <column name="case_id" type="bigint"/>
+            <column name="names_of_victims" type="varchar(255)"/>
+        </createTable>
+
+        <createTable tableName="case_charges">
+            <column name="case_id" type="bigint"/>
+            <column name="charges" type="varchar(255)"/>
+        </createTable>
+
+        <!-- Add Foreign Key Constraints -->
         <addForeignKeyConstraint baseTableName="case"
                                  baseColumnNames="investigator_id"
                                  referencedTableName="investigator"
                                  referencedColumnNames="id" constraintName=""/>
 
-        <!-- Initial data for investigator -->
+        <addForeignKeyConstraint baseTableName="case_names_of_victims"
+                                 baseColumnNames="case_id"
+                                 referencedTableName="case"
+                                 referencedColumnNames="id" constraintName=""/>
+
+        <addForeignKeyConstraint baseTableName="case_charges"
+                                 baseColumnNames="case_id"
+                                 referencedTableName="case"
+                                 referencedColumnNames="id" constraintName=""/>
+
+        <!-- Insert Initial Data for Investigator -->
         <insert tableName="investigator">
             <column name="name" value="John Doe"/>
-            <!-- other columns -->
+            <column name="date_of_birth" value="1980-01-01"/>
+            <column name="years_of_work" value="10"/>
+        </insert>
+
+        <!-- Insert Initial Data for Case -->
+        <insert tableName="case">
+            <column name="investigator_id" value="1"/>
+            <column name="date" value="2024-01-01"/>
+            <column name="place_of_event" value="Place 1"/>
+        </insert>
+
+        <!-- Insert Initial Data for Collections -->
+        <insert tableName="case_names_of_victims">
+            <column name="case_id" value="1"/>
+            <column name="names_of_victims" value="Victim 1"/>
+        </insert>
+        <insert tableName="case_charges">
+            <column name="case_id" value="1"/>
+            <column name="charges" value="Charge 1"/>
         </insert>
     </changeSet>
 </databaseChangeLog>
