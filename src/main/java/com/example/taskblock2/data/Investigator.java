@@ -8,6 +8,7 @@ import lombok.Setter;
 import java.util.Date;
 
 @Entity
+@Table(name = "investigator")
 @Getter
 @Setter
 public class Investigator {
@@ -19,8 +20,9 @@ public class Investigator {
     private String name;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @Column(name = "date_of_birth")
     private Date dateOfBirth;
 
+    @Column(name = "years_of_work")
     private int yearsOfWork;
-
 }

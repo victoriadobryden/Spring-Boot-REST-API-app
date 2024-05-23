@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet id="1" author="yourname">
+    <changeSet id="1" author="postgres">
         <!-- Create Investigator Table -->
         <createTable tableName="investigator">
             <column name="id" type="bigint" autoIncrement="true">
@@ -21,8 +21,8 @@
             </column>
         </createTable>
 
-        <!-- Create Case Table -->
-        <createTable tableName="case">
+        <!-- Create Case Entity Table -->
+        <createTable tableName="case_entity">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -34,31 +34,34 @@
         </createTable>
 
         <!-- Create Join Tables for Collections -->
-        <createTable tableName="case_names_of_victims">
+        <createTable tableName="case_entity_names_of_victims">
             <column name="case_id" type="bigint"/>
             <column name="names_of_victims" type="varchar(255)"/>
         </createTable>
 
-        <createTable tableName="case_charges">
+        <createTable tableName="case_entity_charges">
             <column name="case_id" type="bigint"/>
             <column name="charges" type="varchar(255)"/>
         </createTable>
 
         <!-- Add Foreign Key Constraints -->
-        <addForeignKeyConstraint baseTableName="case"
+        <addForeignKeyConstraint baseTableName="case_entity"
                                  baseColumnNames="investigator_id"
                                  referencedTableName="investigator"
-                                 referencedColumnNames="id" constraintName=""/>
+                                 referencedColumnNames="id"
+                                 constraintName="fk_case_entity_investigator"/>
 
-        <addForeignKeyConstraint baseTableName="case_names_of_victims"
+        <addForeignKeyConstraint baseTableName="case_entity_names_of_victims"
                                  baseColumnNames="case_id"
-                                 referencedTableName="case"
-                                 referencedColumnNames="id" constraintName=""/>
+                                 referencedTableName="case_entity"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_case_entity_names_of_victims_case_entity"/>
 
-        <addForeignKeyConstraint baseTableName="case_charges"
+        <addForeignKeyConstraint baseTableName="case_entity_charges"
                                  baseColumnNames="case_id"
-                                 referencedTableName="case"
-                                 referencedColumnNames="id" constraintName=""/>
+                                 referencedTableName="case_entity"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_case_entity_charges_case_entity"/>
 
         <!-- Insert Initial Data for Investigator -->
         <insert tableName="investigator">
@@ -67,19 +70,19 @@
             <column name="years_of_work" value="10"/>
         </insert>
 
-        <!-- Insert Initial Data for Case -->
-        <insert tableName="case">
+        <!-- Insert Initial Data for Case Entity -->
+        <insert tableName="case_entity">
             <column name="investigator_id" value="1"/>
             <column name="date" value="2024-01-01"/>
             <column name="place_of_event" value="Place 1"/>
         </insert>
 
         <!-- Insert Initial Data for Collections -->
-        <insert tableName="case_names_of_victims">
+        <insert tableName="case_entity_names_of_victims">
             <column name="case_id" value="1"/>
             <column name="names_of_victims" value="Victim 1"/>
         </insert>
-        <insert tableName="case_charges">
+        <insert tableName="case_entity_charges">
             <column name="case_id" value="1"/>
             <column name="charges" value="Charge 1"/>
         </insert>
