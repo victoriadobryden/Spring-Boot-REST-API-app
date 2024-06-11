@@ -64,27 +64,65 @@
                                  constraintName="fk_case_entity_charges_case_entity"/>
 
         <!-- Insert Initial Data for Investigator -->
+
         <insert tableName="investigator">
             <column name="name" value="John Doe"/>
             <column name="date_of_birth" value="1980-01-01"/>
             <column name="years_of_work" value="10"/>
         </insert>
 
-        <!-- Insert Initial Data for Case Entity -->
-        <insert tableName="case_entity">
-            <column name="investigator_id" value="1"/>
-            <column name="date" value="2024-01-01"/>
-            <column name="place_of_event" value="Place 1"/>
+        <insert tableName="investigator">
+            <column name="name" value="Jane Smith"/>
+            <column name="date_of_birth" value="1975-05-15"/>
+            <column name="years_of_work" value="15"/>
         </insert>
 
-        <!-- Insert Initial Data for Collections -->
-        <insert tableName="case_entity_names_of_victims">
-            <column name="case_id" value="1"/>
-            <column name="names_of_victims" value="Victim 1"/>
+        <insert tableName="investigator">
+            <column name="name" value="Alice Johnson"/>
+            <column name="date_of_birth" value="1990-03-22"/>
+            <column name="years_of_work" value="8"/>
         </insert>
-        <insert tableName="case_entity_charges">
-            <column name="case_id" value="1"/>
-            <column name="charges" value="Charge 1"/>
+
+        <insert tableName="investigator">
+            <column name="name" value="Bob Brown"/>
+            <column name="date_of_birth" value="1965-11-30"/>
+            <column name="years_of_work" value="25"/>
+        </insert>
+
+        <insert tableName="investigator">
+            <column name="name" value="Charlie Davis"/>
+            <column name="date_of_birth" value="1982-07-19"/>
+            <column name="years_of_work" value="12"/>
+        </insert>
+
+        <insert tableName="investigator">
+            <column name="name" value="Dana White"/>
+            <column name="date_of_birth" value="1979-02-14"/>
+            <column name="years_of_work" value="18"/>
+        </insert>
+
+        <insert tableName="investigator">
+            <column name="name" value="Edward Green"/>
+            <column name="date_of_birth" value="1995-08-05"/>
+            <column name="years_of_work" value="5"/>
+        </insert>
+
+        <insert tableName="investigator">
+            <column name="name" value="Fiona Black"/>
+            <column name="date_of_birth" value="1987-09-17"/>
+            <column name="years_of_work" value="10"/>
+        </insert>
+
+        <insert tableName="investigator">
+            <column name="name" value="George Harris"/>
+            <column name="date_of_birth" value="1970-06-09"/>
+            <column name="years_of_work" value="20"/>
+        </insert>
+
+        <insert tableName="investigator">
+            <column name="name" value="Hannah Lee"/>
+            <column name="date_of_birth" value="1992-04-25"/>
+            <column name="years_of_work" value="7"/>
         </insert>
     </changeSet>
 </databaseChangeLog>

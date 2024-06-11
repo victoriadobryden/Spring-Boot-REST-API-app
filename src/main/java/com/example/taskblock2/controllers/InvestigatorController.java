@@ -4,11 +4,14 @@ import com.example.taskblock2.data.Investigator;
 import com.example.taskblock2.services.InvestigatorService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/investigators")
@@ -23,9 +26,9 @@ public class InvestigatorController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Investigator>> getAllInvestigators() {
-        List<Investigator> investigators = investigatorService.findAll();
-        return ResponseEntity.ok(investigators);
+    public ResponseEntity<List<Investigator>> getAllInvestigators(Pageable pageable) {
+        Page<Investigator> investigators = investigatorService.findAll(pageable);
+        return ResponseEntity.ok(investigators.getContent());
     }
 
     @PutMapping("/{id}")
@@ -41,4 +44,10 @@ public class InvestigatorController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Investigator> getInvestigatorById(@PathVariable Long id) {
+        Optional<Investigator> investigator = investigatorService.findById(id);
+        return investigator.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }
+
