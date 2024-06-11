@@ -163,3 +163,5 @@ Path Variable: id (Long)
 Description: Retrieves a specific investigator by their ID. Returns the investigator if found, otherwise returns a 404 (Not Found).
 
 ![image](https://github.com/victoriadobryden/Spring-Boot-REST-API-app/assets/65075884/282a4e71-ff60-47cf-9f8a-d96423018310)
+
+Every endpoint is covered by integration tests using MockMvc.
